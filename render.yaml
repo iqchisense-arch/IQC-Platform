@@ -7,12 +7,20 @@ services:
     envVars:
       - key: IQC_ENV
         value: production
+      - key: IQC_SEED_DEMO_USERS
+        value: false
       - key: IQC_SECRET_KEY
         generateValue: true
       - key: IQC_DATA_DIR
         value: /var/data
       - key: IQC_UPLOAD_DIR
         value: /var/data/uploads
+      - key: IQC_ADMIN_USERNAME
+        value: admin_iqc
+      - key: IQC_ADMIN_NAME
+        value: IQC Administrator
+      - key: IQC_ADMIN_EMP
+        value: ADMIN001
       - key: IQC_ADMIN_PASSWORD
         sync: false
     disk:
