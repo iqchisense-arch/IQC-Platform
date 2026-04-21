@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<title>IQC Inspection Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/index.css?v=31">
+
+
+<style>
+
+/* ================= TOOLS ================= */
+
+.tools-section{
+    padding:20px;
+}
+
+.tools-title{
+    font-size:20px;
+    margin-bottom:10px;
+    font-weight:600;
+}
+
+/* ================= CAROUSEL ================= */
+
+.carousel-wrapper{
+    position:relative;
+}
+
+.carousel{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding-bottom:10px;
+}
+
+.carousel::-webkit-scrollbar{
+    display:none;
+}
+
+.tool-card{
+    min-width:260px;
+    background:var(--card-bg, #fff);
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    scroll-snap-align:start;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.tool-card:hover{
+    transform:translateY(-5px);
+}
+
+.tool-card h3{
+    margin-bottom:10px;
+}
+
+.tool-summary p{
+    margin:3px 0;
+}
+
+/* ================= DOTS ================= */
+
+.carousel-dots{
+    text-align:center;
+    margin-top:5px;
+}
+
+.carousel-dots span{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    margin:3px;
+    background:#ccc;
+    border-radius:50%;
+}
+
+.carousel-dots .active{
+    background:#333;
+}
+
+/* ================= ARROWS ================= */
+
+.carousel-btn{
+    position:absolute;
+    top:40%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:50%;
+}
+
+#scrollLeft{ left:-10px; }
+#scrollRight{ right:-10px; }
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.6);
+    z-index:999;
+}
+
+.modal-content{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    width:95%;
+    max-height:90%;
+    overflow:auto;
+}
+
+/* DARK MODE */
+
+body.dark .tool-card{
+    background:#1e1e1e;
+    color:#fff;
+}
+
+body.dark .modal-content{
+    background:#1e1e1e;
+    color:#fff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+<div class="logo-container" id="logoBtn">
+<img src="img/hisense-logo.png">
+</div>
+
+<h1 class="page-title">IQC Inspection Platform</h1>
+
+</header>
+
+<!-- ================= MAIN MODULES ================= -->
+
+<main class="dashboard container grid">
+
+<div id="cardRTV" class="card" onclick="location.href='rtv.html'">RTV</div>
+<div id="cardWMS" class="card" onclick="location.href='incoming.html'">WMS</div>
+<div id="cardBox" class="card" onclick="location.href='box.html'">Box Inspection</div>
+<div id="cardDaily" class="card" onclick="location.href='daily.html'">Daily Inspection</div>
+
+</main>
+
+<section id="adminToolsSection" class="admin-tools-section container" style="display:none;">
+<h2 class="admin-tools-title">Admin tools</h2>
+<div class="dashboard admin-tools-grid">
+<div id="cardAdmin" class="card admin-tool-card admin-vendor-card" onclick="location.href='admin-vendors.html'">
+    <span class="admin-tool-kicker">Access control</span>
+    <strong>Admin Vendors</strong>
+    <small>Vendor accounts and permissions</small>
+</div>
+<div id="cardUsers" class="card admin-tool-card admin-inspector-card" onclick="location.href='admin-users.html'">
+    <span class="admin-tool-kicker">User control</span>
+    <strong>Admin Inspector</strong>
+    <small>Inspector profiles and roles</small>
+</div>
+</div>
+</section>
+
+<aside id="inspectorPanel" class="inspector-panel">
+        <button class="close-btn" id="closeInspectorBtn">×</button>
+        <img id="u-avatar" class="avatar" src="img/inspectores/default.png">
+        <h2 id="u-name">Inspector</h2>
+        <p id="u-role">Inspector IQC</p>
+
+        <div class="info">
+            <p><strong>ID number:</strong> <span id="u-emp"></span></p>
+            <p><strong>Level:</strong> <span id="u-level"></span></p>
+            <p><strong>Entry date:</strong> <span id="u-date"></span></p>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <button class="theme-toggle panel-theme-toggle" onclick="toggleTheme()">Dark / Light Mode</button>
+    </aside>
+    
+
+
+
+<!-- ================= SCRIPTS ================= -->
+
+<script src="js/api.js?v=31"></script>
+<script src="js/script.js?v=21"></script>
+<script src="js/theme.js"></script>
+
+</body>
+</html>

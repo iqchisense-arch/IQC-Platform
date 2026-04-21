@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>User Administration</title>
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/index.css?v=31">
+<link rel="stylesheet" href="css/rtv.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<header class="top-bar">
+    <div class="logo-container">
+        <img src="./img/app-icon-192.png" alt="Hisense logo">
+    </div>
+    <h1 class="page-title">User Administration</h1>
+    <button class="back-btn" onclick="window.location.href='index.html'">Back</button>
+</header>
+
+<main class="admin-page">
+    <section class="admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h2>Create Internal User</h2>
+                <p>Alta rápida para inspectores y usuarios internos.</p>
+            </div>
+        </div>
+
+        <form id="userCreateForm" class="admin-form admin-form-users">
+            <div class="form-box">
+                <label>Name</label>
+                <input id="createNameInput" type="text" required>
+            </div>
+            <div class="form-box">
+                <label>Username</label>
+                <input id="createUsernameInput" type="text" required>
+            </div>
+            <div class="form-box">
+                <label>Password</label>
+                <input id="createPasswordInput" type="text" required>
+            </div>
+            <div class="form-box">
+                <label>Role</label>
+                <select id="createRoleInput">
+                    <option value="Inspector">Inspector</option>
+                    <option value="Group Leader">Group Leader</option>
+                    <option value="Engineer">Engineer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Director">Director</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-box">
+                <label>Shift</label>
+                <input id="createShiftInput" type="text" placeholder="T01 / T02 / ALL">
+            </div>
+            <div class="form-box">
+                <label>Employee ID</label>
+                <input id="createEmpInput" type="text">
+            </div>
+            <div class="form-box">
+                <label>Hire Date</label>
+                <input id="createDateInput" type="text" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="form-box">
+                <label>Level</label>
+                <input id="createLevelInput" type="text">
+            </div>
+            <div class="form-box full">
+                <label>Photo Path</label>
+                <input id="createPhotoInput" type="text" placeholder="img/inspectores/default.png">
+            </div>
+            <button type="submit" class="btn-main">Create User</button>
+        </form>
+    </section>
+
+    <section class="admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h2>Internal Users</h2>
+                <p>Edita cualquier información de inspectores y usuarios internos: nombre, foto, fecha de ingreso, rol, turno, nivel, usuario, password y estado.</p>
+            </div>
+            <div id="userCount" class="admin-badge">0 users</div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="rtv-table admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Shift</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div id="userEditModal" class="modal">
+    <div class="modal-content admin-modal admin-modal-large">
+        <h2>Edit User</h2>
+        <div class="admin-edit-grid">
+            <div class="form-box">
+                <label>Name</label>
+                <input id="editNameInput" type="text">
+            </div>
+            <div class="form-box">
+                <label>Username</label>
+                <input id="editUsernameInput" type="text">
+            </div>
+            <div class="form-box">
+                <label>Role</label>
+                <select id="editRoleInput">
+                    <option value="Admin">Admin</option>
+                    <option value="Engineer">Engineer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Director">Director</option>
+                    <option value="Group Leader">Group Leader</option>
+                    <option value="Inspector">Inspector</option>
+                </select>
+            </div>
+            <div class="form-box">
+                <label>Shift</label>
+                <input id="editShiftInput" type="text" placeholder="T01 / T02 / ALL">
+            </div>
+            <div class="form-box">
+                <label>Employee ID</label>
+                <input id="editEmpInput" type="text">
+            </div>
+            <div class="form-box">
+                <label>Hire Date</label>
+                <input id="editDateInput" type="text" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="form-box">
+                <label>Level</label>
+                <input id="editLevelInput" type="text">
+            </div>
+            <div class="form-box">
+                <label>Status</label>
+                <select id="editStatusInput">
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+            <div class="form-box full">
+                <label>Photo Path</label>
+                <input id="editPhotoInput" type="text" placeholder="img/inspectores/default.png">
+            </div>
+            <div class="form-box full">
+                <label>Upload New Photo</label>
+                <input id="editPhotoFileInput" type="file" accept="image/*">
+            </div>
+            <div class="form-box full">
+                <label>New Password</label>
+                <input id="editPasswordInput" type="text" placeholder="Leave empty to keep current password">
+            </div>
+            <div class="form-box full">
+                <label>Audit</label>
+                <div id="editAuditInfo" class="admin-audit">No audit data.</div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button id="resetUserPasswordBtn" class="btn-danger">Reset Password</button>
+            <button id="saveUserBtn" class="btn-main">Save User</button>
+            <button id="cancelUserBtn" class="btn-secondary">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="adminVerifyModal" class="modal">
+    <div class="modal-content admin-modal">
+        <h2>Admin Verification</h2>
+        <div class="form-box">
+            <label>Confirm admin password</label>
+            <input id="adminVerifyPasswordInput" type="password" placeholder="Admin password">
+        </div>
+        <div class="modal-actions">
+            <button id="confirmAdminVerifyBtn" class="btn-main">Continue</button>
+            <button id="cancelAdminVerifyBtn" class="btn-secondary">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="js/script.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/admin-users.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Daily Inspection</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/daily.css">
+<link rel="stylesheet" href="./css/rtv.css">
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+    <div class="logo-container">
+        <img src="./img/app-icon-192.png" alt="Hisense">
+    </div>
+
+    <h1 class="page-title">Daily Inspection Report</h1>
+
+    <button class="back-btn" onclick="window.location.href='index.html'">
+        ← Back
+    </button>
+
+</header>
+
+<div class="rtv-toolbar-top">
+    <div class="toolbar-left">
+        <button id="gridViewBtn" class="view-btn active">Grid</button>
+        <button id="listViewBtn" class="view-btn">List</button>
+    </div>
+
+    <div class="filter-toolbar">
+        <div class="filter-group">
+            <label for="dailyUserFilter">Inspector</label>
+            <select id="dailyUserFilter">
+                <option value="">All inspectors</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="dailyDateFrom">From</label>
+            <input id="dailyDateFrom" type="date">
+        </div>
+        <div class="filter-group">
+            <label for="dailyDateTo">To</label>
+            <input id="dailyDateTo" type="date">
+        </div>
+        <div class="filter-actions">
+            <button id="clearDailyFilters" class="secondary-btn" type="button">Clear Filters</button>
+        </div>
+    </div>
+
+    <div class="toolbar-right">
+        <button id="exportDailyBtn" class="excel-btn">📊 Export Excel</button>
+    </div>
+</div>
+
+<main class="dashboard rtv-container">
+    <div id="dailyList" class="rtv-list"></div>
+</main>
+
+<button id="addDaily" class="fab">+</button>
+
+<!-- MODAL -->
+
+<div id="dailyModal" class="modal">
+<div class="modal-content">
+
+<h2 id="modalTitle">New Daily Inspection</h2>
+
+<div class="form-section">
+<h3>General Info</h3>
+<div class="form-grid">
+
+<div class="form-box">
+<label>Area</label>
+<select id="areaInput"></select>
+</div>
+
+<div class="form-box">
+<label>Item inspected</label>
+<select id="itemInput"></select>
+</div>
+
+<div class="form-box">
+<label>Issue detected</label>
+<select id="issueInput"></select>
+</div>
+
+</div>
+</div>
+
+<div class="form-section">
+<h3>Inspection</h3>
+<div class="form-grid">
+
+<div class="form-box">
+<label>Pieces with defect</label>
+<input id="defectQtyInput" type="number">
+</div>
+
+<div class="form-box">
+<label>Sample</label>
+<input id="sampleInput" type="number">
+</div>
+
+<div class="form-box">
+<label>Defect %</label>
+<input id="percentText" disabled>
+</div>
+
+</div>
+</div>
+
+<div class="form-section">
+<h3>Production Info</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>Part Number</label>
+<input id="partNumberInput">
+</div>
+
+<div class="form-box">
+<label>Description</label>
+<input id="descriptionInput" disabled>
+</div>
+
+<div class="form-box">
+<label>Internal Model</label>
+<input id="internalModelInput">
+</div>
+
+<div class="form-box">
+<label>Customer Model</label>
+<input id="customerModelInput">
+</div>
+
+<div class="form-box">
+<label>Rolling</label>
+<input id="rollingInput">
+</div>
+
+<div class="form-box">
+<label>Production Plan</label>
+<input id="planQtyInput" type="number">
+</div>
+
+<div class="form-box">
+<label>Detection Line</label>
+<select id="detectionLineInput"></select>
+</div>
+
+</div>
+</div>
+
+<div class="form-section">
+<h3>Responsibility</h3>
+<div class="form-grid">
+
+<div class="form-box">
+<label>Reported By</label>
+<select id="reportedByInput"></select>
+</div>
+
+<div class="form-box">
+<label>Responsible</label>
+<select id="responsibleInput"></select>
+</div>
+
+<div class="form-box">
+<label>Solution</label>
+<select id="solutionInput"></select>
+</div>
+
+</div>
+</div>
+
+
+<div class="form-section">
+<h3>Photo & Comments</h3>
+<div class="photo-grid">
+
+<div class="form-box">
+<label>Attention Time (minutes)</label>
+<input id="attentionTimeInput" type="number" min="0" placeholder="Enter minutes">
+</div>
+
+<div class="form-box">
+<label>Issue Photo</label>
+<input id="photoInput" type="file">
+</div>
+
+<div class="form-box">
+<label>Comments</label>
+<textarea id="commentsInput"></textarea>
+</div>
+
+</div>
+</div>
+
+<div class="modal-actions">
+<button id="saveDaily" class="primary-btn">Save</button>
+<button id="cancelDaily" class="secondary-btn">Cancel</button>
+</div>
+
+</div>
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/db.js"></script>
+<script src="./js/daily.js?v=21"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="js/theme.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>RTV Detail</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/rtv.css">
+
+</head>
+<body>
+
+<header class="top-bar">
+
+<div class="logo-container" onclick="location.href='rtv.html'" style="cursor:pointer;">
+<img src="./img/app-icon-192.png" alt="Hisense logo">
+</div>
+
+<h1 id="rtvDetailTitle" class="page-title"></h1>
+
+<button onclick="location.href='rtv.html'" class="logout-header">
+← Back
+</button>
+
+</header>
+
+
+<main class="detail-container">
+
+
+<!-- LEFT INFO CARD -->
+
+<div class="rtv-info-card">
+
+<p><strong>Vendor:</strong> <span id="vendor"></span></p>
+<p><strong>Process:</strong> <span id="process"></span></p>
+<p><strong>Line:</strong> <span id="line"></span></p>
+<p><strong>Inspector:</strong> <span id="inspector"></span></p>
+<p><strong>Date:</strong> <span id="date"></span></p>
+<p><strong>Approval:</strong> <span id="approvalStatus"></span></p>
+<p id="approvalInfoRow" style="display:none;"><strong>Approved by:</strong> <span id="approvalInfo"></span></p>
+
+
+<div class="rtv-actions-wrapper">
+
+<button id="editRTV" class="btn-main">
+✏ Edit RTV
+</button>
+
+<button id="approveRTV" class="btn-main" style="display:none;">
+Approve RTV
+</button>
+
+
+<div class="btn-row">
+
+<button id="generatePDF" class="btn-secondary">
+⬇ Download Copy
+</button>
+
+<button id="sendEmailBtn" class="btn-secondary">
+✉ Send Email
+</button>
+
+<button id="printRTVBtn" class="btn-secondary">
+🖨 Print
+</button>
+
+</div>
+
+
+<button id="deleteRTV" class="btn-danger">
+🗑 Delete RTV
+</button>
+
+
+<button id="saveChanges" class="btn-main" style="display:none;">
+💾 Save Changes
+</button>
+
+
+</div>
+
+</div>
+
+
+
+<!-- PARTS + PHOTOS -->
+
+<div class="parts-section">
+
+<h2>Parts List</h2>
+
+<table class="parts-table">
+
+<thead>
+<tr>
+<th>Part Number</th>
+<th>Description</th>
+<th>Qty</th>
+<th>Defect</th>
+<th id="actionHeader" class="col-delete">Action</th>
+</tr>
+</thead>
+
+<tbody id="partsTableBody"></tbody>
+
+</table>
+
+
+<h2 style="margin-top:30px;">Evidence Photos</h2>
+
+<div class="photo-grid">
+
+<div class="photo-card">
+
+<h4>Part Number</h4>
+
+<div class="photo-box">
+<img id="photoPartView" src="img/no-image.png" alt="Part photo">
+</div>
+
+</div>
+
+
+<div class="photo-card">
+
+<h4>Material</h4>
+
+<div class="photo-box">
+<img id="photoMaterialView" src="img/no-image.png" alt="Material photo">
+</div>
+
+</div>
+
+
+<div class="photo-card">
+
+<h4>Issue</h4>
+
+<div class="photo-box">
+<img id="photoIssueView" src="img/no-image.png" alt="Issue photo">
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</main>
+
+
+
+<!-- DELETE MODAL -->
+
+<div id="deleteModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">⚠️</div>
+
+<h2>Delete RTV Record</h2>
+
+<p class="delete-message">
+You are about to permanently delete this RTV.
+<br><br>
+<strong>This action cannot be undone.</strong>
+</p>
+
+
+<div class="delete-actions">
+
+<button id="cancelDelete" class="btn-secondary">
+Cancel
+</button>
+
+<button id="confirmDelete" class="btn-danger">
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- EDIT MODAL -->
+
+<div id="editModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">✏️</div>
+
+<h2>Edit RTV</h2>
+
+<p class="delete-message">
+You are about to edit this RTV record.
+<br><br>
+Make sure all information is correct before saving.
+</p>
+
+
+<div class="delete-actions">
+
+<button id="cancelEdit" class="btn-secondary">
+Cancel
+</button>
+
+<button id="confirmEdit" class="btn-main">
+Start Editing
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- DELETE SUCCESS MODAL -->
+
+<div id="deleteSuccessModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">✅</div>
+
+<h2>RTV Deleted</h2>
+
+<p class="delete-message">
+RTV deleted successfully.
+</p>
+
+<div class="delete-actions">
+
+<button id="closeDeleteSuccess" class="btn-main">
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="js/db.js"></script>
+<script src="js/docx.js"></script>
+<script src="js/word-generator.js"></script>
+<script src="js/rtv-email.js"></script>
+<script src="js/rtv-detail.js"></script>
+<script src="js/theme.js"></script>
+
+</body>
+</html>

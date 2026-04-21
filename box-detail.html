@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Box Inspection Detail</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/box.css">
+
+</head>
+
+<body>
+
+
+<header class="top-bar">
+
+    <div class="logo-container">
+        <img src="./img/app-icon-192.png">
+    </div>
+
+    <!-- CONTROL NUMBER -->
+    <h1 class="page-title control-number" id="boxId"></h1>
+
+    <button class="back-btn modern-back"
+        onclick="window.location.href='box.html'">
+        ← Back
+    </button>
+
+</header>
+
+
+<main class="detail-page">
+
+<div class="detail-card modern-detail">
+
+<div class="layout-wrapper">
+
+
+<!-- ================= LEFT PANEL ================= -->
+
+<div class="summary-panel">
+
+    <div class="summary-total">
+        <span>Total Damaged</span>
+        <h1 id="damagedText"></h1>
+    </div>
+
+    <div class="summary-item">
+        <span>Part</span>
+        <b id="partText"></b>
+    </div>
+
+    <div class="summary-item">
+        <span>Description</span>
+        <b id="descText"></b>
+    </div>
+
+    <div class="summary-item">
+        <span>Market</span>
+        <b id="marketText"></b>
+    </div>
+
+    <div class="summary-item">
+        <span>Production Plan</span>
+        <b id="planQtyText"></b>
+    </div>
+
+    <div class="summary-photo">
+        <img id="damagePhoto" class="defect-photo" alt="Damage Photo">
+    </div>
+
+</div>
+
+
+
+<!-- ================= RIGHT PANEL ================= -->
+
+<div class="content-panel">
+
+
+<!-- GENERAL INFORMATION -->
+
+<div class="content-section">
+
+    <h3>General Information</h3>
+
+    <div class="content-grid">
+
+        <div>
+            <span>Color</span>
+            <b id="colorText"></b>
+        </div>
+
+        <div>
+            <span>Model</span>
+            <b id="modelText"></b>
+        </div>
+
+        <div>
+            <span>Rolling</span>
+            <b id="rollingText"></b>
+        </div>
+
+        <div>
+            <span>Line</span>
+            <b id="lineText"></b>
+        </div>
+
+        <div>
+            <span>Approval</span>
+            <b id="approvalStatus"></b>
+        </div>
+
+        <div id="approvalInfoRow" style="display:none;">
+            <span>Approved by</span>
+            <b id="approvalInfo"></b>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- INSPECTION -->
+
+<div class="content-section">
+
+    <h3>Inspection</h3>
+
+    <div class="content-grid">
+
+        <div><span>Qty</span><b id="qtyText"></b></div>
+        <div><span>A</span><b id="levelAText"></b></div>
+        <div><span>B</span><b id="levelBText"></b></div>
+        <div><span>C</span><b id="levelCText"></b></div>
+        <div><span>Spare</span><b id="spareText"></b></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- DAMAGE BREAKDOWN -->
+
+<div class="breakdown-section">
+
+<h4>Damage Breakdown</h4>
+
+<div class="breakdown-grid">
+
+
+<div class="breakdown-card">
+
+<span class="break-title">Level B</span>
+
+<div class="mini-grid">
+
+<div>EFM <b id="bEFM"></b></div>
+<div>PFA <b id="bPFA"></b></div>
+<div>WH <b id="bWH"></b></div>
+<div>HQ <b id="bHQ"></b></div>
+
+</div>
+
+</div>
+
+
+<div class="breakdown-card">
+
+<span class="break-title">Level C</span>
+
+<div class="mini-grid">
+
+<div>EFM <b id="cEFM"></b></div>
+<div>PFA <b id="cPFA"></b></div>
+<div>WH <b id="cWH"></b></div>
+<div>HQ <b id="cHQ"></b></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- COMMENTS -->
+
+<div class="content-section">
+
+<h3>Comments</h3>
+
+<div class="comment-box">
+<b id="commentsText"></b>
+</div>
+
+</div>
+
+
+
+<!-- ACTION BUTTONS -->
+
+<div class="action-row">
+
+<button id="editBox" class="btn-compact">
+✏️ Edit
+</button>
+
+<button id="approveBox" class="btn-compact">
+Approve
+</button>
+
+<button id="deleteBox" class="btn-compact danger">
+Delete
+</button>
+
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+</main>
+
+
+
+<!-- ================= CONFIRM MODAL ================= -->
+
+<div id="confirmOverlay" class="confirm-overlay hidden">
+
+<div class="confirm-modal">
+
+<div id="confirmIcon" class="confirm-icon"></div>
+
+<div class="confirm-text">
+
+<h3 id="confirmTitle"></h3>
+
+<p id="confirmMessage"></p>
+
+<p id="confirmWarning" class="warning-text"></p>
+
+</div>
+
+<div class="confirm-actions">
+
+<button id="confirmCancel" class="btn-cancel">
+Cancel
+</button>
+
+<button id="confirmOk" class="btn-confirm">
+Confirm
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/db.js"></script>
+<script src="./js/box-detail.js"></script>
+<script src="./js/theme.js"></script>
+
+
+</body>
+</html>

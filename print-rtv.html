@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Print RTV</title>
+
+<style>
+/* ===== PAGE ===== */
+@page{
+  size: A4 landscape;
+  margin: 6mm; /* antes 12mm */
+}
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  margin:0;
+  padding:5px;
+  font-size:11px; /* ⭐ más compacto */
+}
+
+/* ocultar botón */
+@media print{
+  button{ display:none; }
+}
+
+/* ===== HEADER ===== */
+.header{
+  margin-bottom:4px;
+}
+
+.title{
+  text-align:center;
+  font-size:22px; /* antes 30 */
+  font-weight:bold;
+  font-style:italic;
+  margin-bottom:4px;
+}
+
+.company-row{
+  display:flex;
+  align-items:center;
+}
+
+.company{
+  font-size:10px;
+  margin-right:10px;
+}
+
+.company-logo{
+  width:120px; /* antes 160 */
+}
+
+/* ===== TABLES ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:4px;
+}
+
+td,th{
+  border:1px solid #000;
+  padding:3px; /* antes 5 */
+  font-size:10px;
+}
+
+/* reducir altura de filas */
+tr{ height:18px; }
+
+/* ===== SIGNATURES ===== */
+.signatures{
+  margin:6px 0;
+  font-size:10px;
+  font-weight:bold;
+}
+
+/* ===== PHOTOS ===== */
+.photos td{
+  text-align:center;          /* centra horizontal */
+  vertical-align:middle;      /* centra vertical */
+}
+
+.photos img{
+  width:220px;
+  height:140px;
+  object-fit:cover;
+  display:block;
+  margin:auto;                /* centrado extra seguro */
+}
+
+
+/* imagen footer vendor */
+.footer-img{
+  margin-top:4px;
+}
+
+@media screen and (max-width:768px){
+  body{
+    padding:12px;
+    font-size:12px;
+  }
+
+  .title{
+    font-size:18px;
+  }
+
+  .company-row,
+  .company-block{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  td,th{
+    padding:2px;
+    font-size:9px;
+  }
+
+  .photos img{
+    width:100%;
+    height:auto;
+    max-height:220px;
+  }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<button onclick="window.print()">Print</button>
+
+<div id="content"></div>
+
+<script src="js/api.js?v=31"></script>
+<script src="./js/db.js"></script>
+
+<script>
+
+const index = Number(localStorage.getItem("currentRTV"));
+const data = JSON.parse(localStorage.getItem("rtvData")) || [];
+const rtv = data[index];
+
+if(!rtv){
+  document.body.innerHTML="RTV not found";
+}
+
+/* ===== cargar fotos desde IndexedDB ===== */
+async function getPhotoURL(key){
+   if(!key) return "img/no-image.png";
+
+   const file = await getPhoto(key);
+   if(!file) return "img/no-image.png";
+
+   const blob = file instanceof Blob ? file : new Blob([file]);
+   return URL.createObjectURL(blob);
+}
+
+async function buildRTV(){
+
+const partPhoto = await getPhotoURL(rtv.photos?.part);
+const materialPhoto = await getPhotoURL(rtv.photos?.material);
+const issuePhoto = await getPhotoURL(rtv.photos?.issue);
+
+document.getElementById("content").innerHTML = `
+
+<div class="header">
+
+  <div class="title">Return to vendor (RTV)</div>
+
+  <div class="company-block">
+      <div class="company">Electrónica de México S.A. de C.V.</div>
+      <img class="company-logo" src="img/hisense-word.png">
+  </div>
+
+</div>
+
+
+<table>
+<tr>
+<td>${rtv.process}</td>
+<td>Plant: P2</td>
+<td>SAP reference WH: ${rtv.line}</td>
+<td>Supplier: ${rtv.vendor}</td>
+<td>LOCATION 5001</td>
+<td>Issued Date: ${rtv.date}</td>
+<td>Control No. ${rtv.id}</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th>Part number</th>
+<th>Description</th>
+<th>Qty</th>
+<th>Defect</th>
+</tr>
+${rtv.parts.map(p=>`
+<tr>
+<td>${p.partNumber}</td>
+<td>${p.description}</td>
+<td>${p.qty}</td>
+<td>${p.defect}</td>
+</tr>`).join("")}
+</table>
+
+<div class="signatures">
+Reported By ${rtv.inspector} ______________________________ &nbsp;&nbsp;&nbsp;
+Checked By ______________________________ &nbsp;&nbsp;&nbsp;
+Approved By ______________________________
+</div>
+
+<table class="photos">
+<tr>
+<th>Part code</th>
+<th>Material photo</th>
+<th>Issue</th>
+</tr>
+<tr>
+<td><img src="${partPhoto}"></td>
+<td><img src="${materialPhoto}"></td>
+<td><img src="${issuePhoto}"></td>
+</tr>
+</table>
+
+<img src="img/vendor-section.png" style="width:100%;">
+
+`;
+}
+
+buildRTV();
+
+</script>
+</body>
+</html>

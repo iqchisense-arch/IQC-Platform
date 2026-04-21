@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Box Inspection</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/rtv.css">
+<link rel="stylesheet" href="./css/box.css">
+</head>
+
+<body>
+
+<header class="top-bar">
+    <div class="logo-container">
+        <img src="./img/app-icon-192.png">
+    </div>
+    <h1 class="page-title">Box Inspection</h1>
+    <button class="logout-header" onclick="window.location.href='index.html'">← Back</button>
+</header>
+
+<!-- TOOLBAR -->
+<div class="rtv-toolbar-top">
+    <div class="toolbar-left">
+        <button id="gridViewBtn" class="view-btn active">Grid</button>
+        <button id="listViewBtn" class="view-btn">List</button>
+    </div>
+
+    <div class="filter-toolbar">
+        <div class="filter-group">
+            <label for="boxUserFilter">Inspector</label>
+            <select id="boxUserFilter">
+                <option value="">All inspectors</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="boxDateFrom">From</label>
+            <input id="boxDateFrom" type="date">
+        </div>
+        <div class="filter-group">
+            <label for="boxDateTo">To</label>
+            <input id="boxDateTo" type="date">
+        </div>
+        <div class="filter-actions">
+            <button id="clearBoxFilters" class="secondary-btn" type="button">Clear Filters</button>
+        </div>
+    </div>
+    <div class="toolbar-right">
+        <button id="exportBoxBtn" class="excel-btn">📊 Export Excel</button>
+    </div>
+</div>
+
+<main class="dashboard rtv-container">
+    <div id="boxList" class="rtv-list"></div>
+</main>
+
+<button id="addBox" class="fab">+</button>
+
+<!-- MODAL -->
+<div id="boxModal" class="modal">
+
+<div class="modal-content">
+
+<h2>New Box Inspection</h2>
+
+<!-- GENERAL -->
+<div class="form-section">
+<h3>General Information</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>Box Color</label>
+<select id="colorInput"></select>
+</div>
+
+<div class="form-box">
+<label>Line</label>
+<select id="lineInput"></select>
+</div>
+
+<div class="form-box">
+<label>Part Number</label>
+<input id="partNumberInput">
+</div>
+
+<div class="form-box">
+<label>Description</label>
+<input id="descriptionInput" disabled>
+</div>
+
+<!-- NUEVO -->
+<div class="form-box">
+<label>Model</label>
+<input id="modelInput" placeholder="Enter model">
+</div>
+
+<div class="form-box">
+<label>Rolling</label>
+<input id="rollingInput" placeholder="Enter rolling">
+</div>
+
+
+</div>
+</div>
+
+<!-- QUANTITY -->
+<div class="form-section">
+<h3>Inspection</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>Qty Inspected</label>
+<input id="qtyInspected" type="number">
+</div>
+
+<div class="form-box">
+<label>Level A (Good)</label>
+<input id="levelA" type="number">
+</div>
+
+<div class="form-box">
+<label>Total Damaged</label>
+<input id="damagedTotal" disabled>
+</div>
+
+</div>
+</div>
+
+<!-- LEVEL B -->
+<div class="form-section">
+<h3>Level B Damage</h3>
+
+<div class="form-grid">
+
+<input id="b_efm" placeholder="EFM" type="number">
+<input id="b_pfa" placeholder="PFA" type="number">
+<input id="b_wh"  placeholder="WH" type="number">
+<input id="b_hq"  placeholder="HQ" type="number">
+
+</div>
+</div>
+
+<!-- LEVEL C -->
+<div class="form-section">
+<h3>Level C Damage</h3>
+
+<div class="form-grid">
+
+<input id="c_efm" placeholder="EFM" type="number">
+<input id="c_pfa" placeholder="PFA" type="number">
+<input id="c_wh"  placeholder="WH" type="number">
+<input id="c_hq"  placeholder="HQ" type="number">
+
+</div>
+</div>
+
+<!-- PHOTO -->
+<div id="boxPhotoSection" class="form-section" style="display:none;">
+<h3>Damage Evidence</h3>
+
+<input type="file" id="damagePhotoInput" accept="image/*">
+</div>
+
+<!-- PRODUCTION -->
+<div class="form-section">
+<h3>Production</h3>
+
+<div class="form-grid">
+
+<input id="planQtyInput" placeholder="Plan Qty">
+<input id="marketInput" placeholder="Market">
+<input id="sparePartsInput" placeholder="Spare Parts">
+
+</div>
+</div>
+
+<!-- COMMENTS -->
+<div class="form-section">
+<textarea id="commentsInput"></textarea>
+</div>
+
+<div class="modal-actions">
+<button id="saveBox" class="primary-btn">Save</button>
+<button id="cancelBox" class="secondary-btn">Cancel</button>
+</div>
+
+</div>
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/script.js?v=21" defer></script>
+<script src="./js/db.js" defer></script>
+<script src="./js/box.js?v=21" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", ()=> requireAuth());
+</script>
+
+<script src="js/theme.js"></script>
+
+</body>
+</html>

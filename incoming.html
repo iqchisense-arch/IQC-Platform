@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Warehouse Management System</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/rtv.css">
+<link rel="stylesheet" href="./css/incoming.css">
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+<div class="logo-container">
+<img src="./img/app-icon-192.png" alt="Hisense logo">
+</div>
+
+<h1 class="page-title">Warehouse Management System</h1>
+
+<button class="logout-header" onclick="window.location.href='index.html'">
+← Back
+</button>
+
+</header>
+
+<div class="rtv-toolbar-top">
+
+<div class="toolbar-left">
+
+<button id="gridViewBtn" class="view-btn active">Grid</button>
+<button id="listViewBtn" class="view-btn">List</button>
+
+</div>
+
+<div class="filter-toolbar">
+<div class="filter-group">
+<label for="incomingVendorFilter">Vendor</label>
+<select id="incomingVendorFilter">
+<option value="">All vendors</option>
+</select>
+</div>
+<div class="filter-group">
+<label for="incomingUserFilter">Inspector</label>
+<select id="incomingUserFilter">
+<option value="">All inspectors</option>
+</select>
+</div>
+<div class="filter-group">
+<label for="incomingDateFrom">From</label>
+<input id="incomingDateFrom" type="date">
+</div>
+<div class="filter-group">
+<label for="incomingDateTo">To</label>
+<input id="incomingDateTo" type="date">
+</div>
+<div class="filter-actions">
+<button id="clearIncomingFilters" class="secondary-btn" type="button">Clear Filters</button>
+</div>
+</div>
+
+<div class="toolbar-right">
+
+<button id="exportExcelBtn" class="excel-btn">
+📊 Export Excel
+</button>
+
+</div>
+
+</div>
+
+<main class="dashboard rtv-container">
+
+<div id="incomingList" class="rtv-list"></div>
+
+</main>
+
+<button id="addIncoming" class="fab">+</button>
+
+<!-- ================= MODAL ================= -->
+
+<div id="incomingModal" class="modal">
+
+<div class="modal-content">
+
+<h2>New Incoming Inspection</h2>
+
+<div class="form-section">
+
+<h3>General Information</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>Vendor</label>
+<select id="vendorInput"></select>
+</div>
+
+<div class="form-box">
+<label>Part Number</label>
+<input id="partNumberInput">
+</div>
+
+<div class="form-box">
+<label>Description</label>
+<input id="descInput" disabled>
+</div>
+
+<div class="form-box">
+<label>Rolling</label>
+<input id="rollingInput">
+</div>
+
+</div>
+
+</div>
+
+<div class="form-section">
+
+<h3>Lot Information</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>Lot Quantity</label>
+<input type="number" id="lotQtyInput">
+</div>
+
+<div class="form-box">
+<label>Sample Size</label>
+<input type="number" id="sampleInput" disabled>
+</div>
+
+<div class="form-box">
+<label>AQL Level</label>
+<input id="aqlLevelInput" disabled>
+</div>
+
+</div>
+
+</div>
+
+<div class="form-section">
+
+<h3>Inspection Result</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>NG Quantity</label>
+<input type="number" id="ngQtyInput">
+
+<div id="defectPhotosSection" style="display:none;">
+
+<div class="form-box">
+<label>Defect Photo</label>
+<input type="file" id="defectPhotoInput" accept="image/*">
+</div>
+
+</div>
+</div>
+
+<div class="form-box">
+<label>Defect</label>
+<select id="defectInput"></select>
+</div>
+
+<div class="form-box">
+<label>NG %</label>
+<input id="ngPercentInput" disabled>
+</div>
+
+<div class="form-box">
+<label>Max Defects</label>
+<input id="maxDefectsInput" disabled>
+</div>
+
+<div class="form-box">
+<label>Judge</label>
+<input id="judgeInput" disabled>
+</div>
+
+</div>
+
+<div id="defectPhotosSection" style="display:none">
+
+<label>Defect Photo</label>
+<input type="file" id="defectPhotoInput">
+
+</div>
+
+</div>
+
+<div class="form-section">
+
+<h3>Comments</h3>
+
+<div class="form-box">
+<textarea id="commentsInput"></textarea>
+</div>
+
+</div>
+
+<div class="modal-actions">
+
+<button id="saveIncoming" class="primary-btn">
+Save Inspection
+</button>
+
+<button id="cancelIncoming" class="secondary-btn">
+Cancel
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- INVALID PART MODAL -->
+
+<div id="invalidPartModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">🔒</div>
+
+<h2>Invalid Part Number</h2>
+
+<p class="delete-message">
+The part number entered is not registered in the database.
+<br><br>
+Please verify the part number before saving.
+</p>
+
+<div class="delete-actions">
+
+<button id="closeInvalidPart" class="btn-main">
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SAMPLE SIZE ERROR MODAL -->
+
+<div id="sampleErrorModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">⚠️</div>
+
+<h2>Invalid NG Quantity</h2>
+
+<p class="delete-message">
+NG quantity cannot exceed the sample size.
+<br><br>
+Please verify the inspection data.
+</p>
+
+<div class="delete-actions">
+
+<button id="closeSampleError" class="btn-main">
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/script.js?v=21"></script>
+<script src="./js/db.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="./js/incoming.js?v=21"></script>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+requireAuth();
+});
+</script>
+
+<script src="js/theme.js"></script>
+
+</body>
+</html>

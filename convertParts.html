@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Convert Parts</title>
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    padding:24px 16px;
+    font-family:"Segoe UI", Arial, sans-serif;
+    background:linear-gradient(180deg, #0b1a2a, #020617);
+    color:#e5e7eb;
+}
+
+.page{
+    width:min(100%, 960px);
+    margin:0 auto;
+}
+
+.card{
+    background:rgba(15, 23, 42, 0.92);
+    border:1px solid rgba(148, 163, 184, 0.2);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 20px 45px rgba(0,0,0,0.28);
+}
+
+h1{
+    margin:0 0 8px;
+    font-size:clamp(22px, 4vw, 32px);
+}
+
+p{
+    margin:0 0 20px;
+    color:#94a3b8;
+}
+
+input[type="file"]{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #334155;
+    background:#020617;
+    color:#e5e7eb;
+}
+
+pre{
+    margin-top:20px;
+    padding:16px;
+    border-radius:14px;
+    background:#020617;
+    border:1px solid #1e293b;
+    overflow:auto;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+@media (max-width:480px){
+    body{
+        padding:16px 12px;
+    }
+
+    .card{
+        padding:18px;
+    }
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+    <section class="card">
+        <h1>Convert Parts</h1>
+        <p>Selecciona un archivo Excel para convertir la primera hoja a JSON.</p>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+        <pre id="output"></pre>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<script>
+document.getElementById("fileInput").addEventListener("change", function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        console.log(jsonData);
+        document.getElementById("output").textContent = JSON.stringify(jsonData, null, 2);
+    };
+
+    reader.readAsArrayBuffer(file);
+});
+</script>
+</body>
+</html>

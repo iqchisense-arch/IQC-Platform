@@ -1,0 +1,48 @@
+{
+  "name": "IQC Inspection Platform",
+  "short_name": "IQC",
+  "description": "IQC inspection records, approvals, RTV, WMS, Box and Daily Inspection.",
+  "id": "/index.html",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait",
+  "background_color": "#0b1220",
+  "theme_color": "#0f766e",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/img/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "RTV",
+      "short_name": "RTV",
+      "url": "/rtv.html",
+      "icons": [{ "src": "/img/app-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "WMS",
+      "short_name": "WMS",
+      "url": "/incoming.html",
+      "icons": [{ "src": "/img/app-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Daily",
+      "short_name": "Daily",
+      "url": "/daily.html",
+      "icons": [{ "src": "/img/app-icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

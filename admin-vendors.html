@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Vendor Administration</title>
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/index.css?v=31">
+<link rel="stylesheet" href="css/rtv.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<header class="top-bar">
+    <div class="logo-container">
+        <img src="./img/app-icon-192.png" alt="Hisense logo">
+    </div>
+    <h1 class="page-title">Vendor Administration</h1>
+    <button class="back-btn" onclick="window.location.href='index.html'">Back</button>
+</header>
+
+<main class="admin-page">
+    <section class="admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h2>Create Vendor Access</h2>
+                <p>Alta de proveedores, activación, desactivación y cambio de contraseña.</p>
+            </div>
+            <div id="vendorCount" class="admin-badge">0 vendors</div>
+        </div>
+
+        <form id="vendorCreateForm" class="admin-form">
+            <div class="form-box">
+                <label>Vendor Name</label>
+                <input id="vendorNameInput" type="text" placeholder="Example: JETAI" required>
+            </div>
+            <div class="form-box">
+                <label>Initial Password</label>
+                <input id="vendorPasswordInput" type="text" placeholder="Minimum 6 characters" required>
+            </div>
+            <button type="submit" class="btn-main">Create Vendor Account</button>
+        </form>
+    </section>
+
+    <section class="admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h2>Vendor Accounts</h2>
+                <p>Los proveedores sólo podrán ver RTV y WMS de su propio vendor, sin editar ni borrar.</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="rtv-table admin-table">
+                <thead>
+                    <tr>
+                        <th>Vendor</th>
+                        <th>Username</th>
+                        <th>Status</th>
+                        <th>Modules</th>
+                        <th>Mode</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="vendorTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div id="passwordModal" class="modal">
+    <div class="modal-content admin-modal">
+        <h2>Change Vendor Password</h2>
+        <div class="form-box">
+            <label id="passwordModalLabel">Vendor</label>
+            <input id="newVendorPasswordInput" type="text" placeholder="New password">
+        </div>
+        <div class="modal-actions">
+            <button id="saveVendorPasswordBtn" class="btn-main">Save Password</button>
+            <button id="cancelVendorPasswordBtn" class="btn-secondary">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="adminVerifyModal" class="modal">
+    <div class="modal-content admin-modal">
+        <h2>Admin Verification</h2>
+        <div class="form-box">
+            <label>Confirm admin password</label>
+            <input id="adminVerifyPasswordInput" type="password" placeholder="Admin password">
+        </div>
+        <div class="modal-actions">
+            <button id="confirmAdminVerifyBtn" class="btn-main">Continue</button>
+            <button id="cancelAdminVerifyBtn" class="btn-secondary">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="js/script.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/admin-vendors.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Daily Inspection Detail</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/daily.css">
+</head>
+
+<body>
+
+<header class="top-bar">
+
+<div class="logo-container">
+<img src="./img/app-icon-192.png">
+</div>
+
+<h1 class="page-title" id="dailyId"></h1>
+
+<button class="back-btn" onclick="window.location.href='daily.html'">
+← Back
+</button>
+
+</header>
+
+
+<main class="detail-page">
+
+<div class="detail-card modern-detail">
+
+<div class="layout-wrapper">
+
+
+<!-- SUMMARY PANEL -->
+
+<div class="summary-panel">
+
+<div class="summary-total">
+<span>Defect %</span>
+<h1 id="percentText"></h1>
+</div>
+
+<div class="summary-item">
+<span>Pieces with defect</span>
+<b id="defectQtyText"></b>
+</div>
+
+<div class="summary-item">
+<span>Sample</span>
+<b id="sampleText"></b>
+</div>
+
+<div class="summary-photo">
+<img id="photoPreview">
+</div>
+
+</div>
+
+
+<!-- CONTENT PANEL -->
+
+<div class="content-panel">
+
+<div class="content-section">
+
+<h3>General Information</h3>
+
+<div class="content-grid">
+
+<div><span>Area</span><b id="areaText"></b></div>
+<div><span>Item</span><b id="itemText"></b></div>
+<div><span>Issue</span><b id="issueText"></b></div>
+<div><span>Inspector</span><b id="inspectorText"></b></div>
+<div><span>Date</span><b id="dateText"></b></div>
+<div><span>Detection Line</span><b id="lineText"></b></div>
+<div><span>Approval</span><b id="approvalStatus"></b></div>
+<div id="approvalInfoRow" style="display:none;"><span>Approved by</span><b id="approvalInfo"></b></div>
+
+</div>
+
+</div>
+
+
+<div class="content-section">
+
+<h3>Production Information</h3>
+
+<div class="content-grid">
+
+<div><span>Part Number</span><b id="partText"></b></div>
+<div><span>Description</span><b id="descText"></b></div>
+<div><span>Internal Model</span><b id="internalModelText"></b></div>
+<div><span>Customer Model</span><b id="customerModelText"></b></div>
+<div><span>Rolling</span><b id="rollingText"></b></div>
+<div><span>Production Plan</span><b id="planText"></b></div>
+<div><span>Attention Time (min)</span><b id="attentionTimeText"></b></div>
+</div>
+
+</div>
+
+
+<div class="content-section">
+
+<h3>Responsibility</h3>
+
+<div class="content-grid">
+
+<div><span>Reported By</span><b id="reportedByText"></b></div>
+<div><span>Responsible</span><b id="responsibleText"></b></div>
+<div><span>Solution</span><b id="solutionText"></b></div>
+
+</div>
+
+</div>
+
+
+<div class="content-section">
+
+<h3>Comments</h3>
+
+<div class="comment-box">
+<b id="commentsText"></b>
+</div>
+
+</div>
+
+
+<div class="action-row">
+
+<button id="editDaily" class="btn-compact">
+✏ Edit
+</button>
+
+<button id="approveDaily" class="btn-compact">
+Approve
+</button>
+
+<button id="deleteDaily" class="btn-compact danger">
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- CONFIRM MODAL -->
+
+<div id="confirmOverlay" class="confirm-overlay hidden">
+
+<div class="confirm-modal">
+
+<div id="confirmIcon" class="confirm-icon"></div>
+
+<div class="confirm-text">
+
+<h3 id="confirmTitle"></h3>
+
+<p id="confirmMessage"></p>
+
+<p id="confirmWarning" class="warning-text"></p>
+
+</div>
+
+<div class="confirm-actions">
+
+<button id="confirmCancel" class="btn-cancel">
+Cancel
+</button>
+
+<button id="confirmOk" class="btn-confirm"></button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/db.js"></script>
+<script src="./js/daily-detail.js"></script>
+<script src="js/theme.js"></script>
+
+</body>
+</html>

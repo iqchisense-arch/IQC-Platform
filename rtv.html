@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>RTV Summary</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/rtv.css">
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+<div class="logo-container">
+<img src="./img/app-icon-192.png" alt="Hisense logo">
+</div>
+
+<h1 class="page-title">RTV Summary</h1>
+
+<button class="logout-header" onclick="goBack()">
+⬅ Back
+</button>
+
+</header>
+
+<div class="rtv-toolbar-top">
+
+<div class="toolbar-left">
+
+<button id="gridViewBtn" class="view-btn active">
+Grid
+</button>
+
+<button id="listViewBtn" class="view-btn">
+List
+</button>
+
+</div>
+
+<div class="filter-toolbar">
+<div class="filter-group">
+<label for="rtvVendorFilter">Vendor</label>
+<select id="rtvVendorFilter">
+<option value="">All vendors</option>
+</select>
+</div>
+<div class="filter-group">
+<label for="rtvUserFilter">Inspector</label>
+<select id="rtvUserFilter">
+<option value="">All inspectors</option>
+</select>
+</div>
+<div class="filter-group">
+<label for="rtvDateFrom">From</label>
+<input id="rtvDateFrom" type="date">
+</div>
+<div class="filter-group">
+<label for="rtvDateTo">To</label>
+<input id="rtvDateTo" type="date">
+</div>
+<div class="filter-actions">
+<button id="clearRTVFilters" class="secondary-btn" type="button">Clear Filters</button>
+</div>
+</div>
+
+<div class="toolbar-right">
+
+<button id="exportRTVBtn" class="excel-btn">
+📊 Export Excel
+</button>
+
+</div>
+
+</div>
+
+<main class="dashboard rtv-container container">
+
+<div id="rtvList" class="rtv-list grid"></div>
+
+</main>
+
+<button id="addRTV" class="fab">
++
+</button>
+
+<!-- MODAL -->
+
+<div id="rtvModal" class="modal">
+
+<div class="modal-content">
+
+<h2>Create RTV</h2>
+
+<div class="form-section">
+
+<h3>General Information</h3>
+
+<div class="form-grid">
+
+<div class="form-box">
+<label>Vendor</label>
+<select id="vendorInput"></select>
+</div>
+
+<div class="form-box">
+<label>Line</label>
+<select id="lineInput"></select>
+</div>
+
+</div>
+
+</div>
+
+<div class="form-section">
+
+<h3>Parts</h3>
+
+<div id="partsContainer"></div>
+
+<button id="addPartBtn" class="secondary-btn">
++ Add Part
+</button>
+
+</div>
+
+<div class="form-section">
+
+<h3>Photos</h3>
+
+<div class="photo-grid">
+
+<div class="form-box">
+<label>Part Photo</label>
+<input type="file" id="photoPart">
+</div>
+
+<div class="form-box">
+<label>Material Photo</label>
+<input type="file" id="photoMaterial">
+</div>
+
+<div class="form-box">
+<label>Issue Photo</label>
+<input type="file" id="photoIssue">
+</div>
+
+</div>
+
+</div>
+
+<div class="modal-actions">
+
+<button id="saveRTV" class="primary-btn">
+Save RTV
+</button>
+
+<button id="cancelRTV" class="secondary-btn">
+Cancel
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/script.js?v=21"></script>
+<script src="./js/db.js"></script>
+<script src="js/docx.js"></script>
+<script src="js/word-generator.js"></script>
+<script src="./js/rtv-email.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="./js/rtv.js?v=21"></script>
+<script src="./js/theme.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+if(typeof requireAuth === "function"){
+requireAuth();
+}
+});
+
+function goBack(){
+window.location.href = "index.html";
+}
+
+</script>
+
+<!-- RTV CREATED MODAL -->
+
+<div id="rtvCreatedModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">✅</div>
+
+<h2>RTV Generated Successfully</h2>
+
+<p class="delete-message">
+The RTV has been created.
+<br><br>
+<strong id="rtvCreatedNumber"></strong>
+</p>
+
+<div class="delete-actions">
+
+<button id="closeRTVCreated" class="btn-main">
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- INVALID PART MODAL -->
+
+<div id="invalidPartModal" class="delete-modal">
+
+<div class="delete-modal-content">
+
+<div class="delete-icon">🔒</div>
+
+<h2>Invalid Part Number</h2>
+
+<p class="delete-message">
+The part number entered is not registered in the database.
+<br><br>
+Please verify the part number before saving the RTV.
+</p>
+
+<div class="delete-actions">
+
+<button id="closeInvalidPart" class="btn-main">
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

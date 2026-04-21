@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="css/responsive.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<meta charset="UTF-8">
+    <title>IQC Inspection Platform | Login</title>
+
+    <!-- CSS SOLO PARA LOGIN -->
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-card">
+
+            <!-- LOGO -->
+            <img src="img/hisense-logo.png" class="logo" alt="Hisense">
+
+            <!-- TITULO -->
+            <h1>IQC Inspection Platform</h1>
+            <p class="subtitle">Quality Control Access</p>
+
+            <!-- FORM -->
+            <div class="form">
+                <input
+                    type="text"
+                    id="user"
+                    placeholder="User"
+                    autocomplete="off"
+                >
+
+                <input
+                    type="password"
+                    id="pass"
+                    placeholder="Password"
+                >
+
+                <button onclick="login()">Login</button>
+            </div>
+
+            <span class="footer">© Hisense Manufacturing</span>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/api.js?v=31"></script>
+    <script src="js/app-alert.js"></script>
+    <script src="js/script.js?v=18"></script>
+    <script>
+    window.login = async function(){
+        const username = document.getElementById("user").value.toLowerCase().trim();
+        const password = document.getElementById("pass").value;
+        const apiBase = window.APP_API_BASE || (
+            window.location.origin && window.location.origin !== "null"
+                ? window.location.origin + "/api"
+                : "http://127.0.0.1:5000/api"
+        );
+
+        try{
+            const response = await fetch(apiBase + "/auth/login", {
+                method:"POST",
+                headers:{ "Content-Type":"application/json" },
+                body:JSON.stringify({ username, password })
+            });
+
+            if(!response.ok) throw new Error("invalid_credentials");
+
+            const data = await response.json();
+            const user = data.user;
+
+            localStorage.setItem("loggedUser", JSON.stringify(user));
+            localStorage.setItem("inspector", JSON.stringify({
+                name:user.name,
+                emp:user.emp,
+                role:user.role,
+                level:user.level,
+                photo:user.photo
+            }));
+
+            window.location.href = "index.html";
+        }catch(error){
+            alert("Usuario o contrasena incorrectos");
+        }
+    };
+    </script>
+    
+</body>
+</html>

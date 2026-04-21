@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: iqc-platform
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --chdir backend "app:app"
+    envVars:
+      - key: IQC_ENV
+        value: production
+      - key: IQC_SECRET_KEY
+        generateValue: true
+      - key: IQC_DATA_DIR
+        value: /var/data
+      - key: IQC_UPLOAD_DIR
+        value: /var/data/uploads
+      - key: IQC_ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: iqc-data
+      mountPath: /var/data
+      sizeGB: 1

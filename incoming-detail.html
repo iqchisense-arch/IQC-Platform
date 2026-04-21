@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IQC">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app-icon-192.png">
+<title>Inspection Detail</title>
+
+<link rel="stylesheet" href="./css/index.css?v=31">
+<link rel="stylesheet" href="./css/incoming.css">
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+    <div class="logo-container">
+        <img src="./img/app-icon-192.png" alt="Hisense Logo">
+    </div>
+
+    <h1 class="page-title" id="incomingId"></h1>
+
+    <button class="back-btn" onclick="window.location.href='incoming.html'">
+        ← Back
+    </button>
+
+</header>
+
+
+<main class="detail-page">
+
+<div class="detail-card modern-detail">
+
+<div class="layout-wrapper">
+
+
+<!-- ================= SUMMARY PANEL ================= -->
+
+<div class="summary-panel">
+
+    <div class="summary-total">
+        <span>Judge</span>
+        <h1 id="judgeBadge"></h1>
+    </div>
+
+    <div class="summary-item">
+        <span>NG Qty</span>
+        <b id="ngQtyText"></b>
+    </div>
+
+    <div class="summary-item">
+        <span>NG %</span>
+        <b id="ngPercentText"></b>
+    </div>
+
+    <div class="summary-photo">
+        <img id="defectPhoto" class="defect-photo" alt="Defect Photo">
+    </div>
+
+</div>
+
+
+<!-- ================= CONTENT PANEL ================= -->
+
+<div class="content-panel">
+
+    <div class="content-section">
+
+        <h3>General Information</h3>
+
+        <div class="content-grid">
+            <div><span>Vendor</span><b id="vendorText"></b></div>
+            <div><span>Inspector</span><b id="inspectorText"></b></div>
+            <div><span>Part</span><b id="partText"></b></div>
+            <div><span>Description</span><b id="descText"></b></div>
+            <div><span>Rolling</span><b id="rollingText"></b></div>
+            <div><span>Lot Qty</span><b id="lotText"></b></div>
+            <div><span>Approval</span><b id="approvalStatus"></b></div>
+            <div id="approvalInfoRow" style="display:none;"><span>Approved by</span><b id="approvalInfo"></b></div>
+        </div>
+
+    </div>
+
+
+    <div class="content-section">
+
+        <h3>Inspection Details</h3>
+
+        <div class="content-grid">
+            <div><span>Sample</span><b id="sampleText"></b></div>
+            <div><span>AQL</span><b id="aqlText"></b></div>
+            <div><span>Max Defects</span><b id="maxDefText"></b></div>
+            <div><span>Defect</span><b id="defectText"></b></div>
+        </div>
+
+    </div>
+
+
+    <div class="content-section">
+
+        <h3>Comments</h3>
+
+        <div class="comment-box">
+            <b id="commentsText"></b>
+        </div>
+
+    </div>
+    <div class="action-panel">
+
+    <button id="editInspection" class="btn-compact">
+        ✏ Edit Inspection
+    </button>
+
+    <button id="approveInspection" class="btn-compact">
+        Approve Inspection
+    </button>
+
+    <button id="deleteInspection" class="btn-compact danger">
+        🗑 Delete Inspection
+    </button>
+
+</div>
+
+
+</div>
+</div>
+
+</main>
+
+</div>
+
+
+<!-- ================= ACTION PANEL (RIGHT SIDE) ================= -->
+
+
+
+
+<!-- ================= CONFIRM MODAL ================= -->
+
+<div id="confirmOverlay" class="confirm-overlay hidden">
+
+    <div class="confirm-modal">
+
+        <div id="confirmIcon" class="confirm-icon"></div>
+
+        <div class="confirm-text">
+            <h3 id="confirmTitle"></h3>
+            <p id="confirmMessage"></p>
+            <p id="confirmWarning" class="warning-text"></p>
+        </div>
+
+        <div class="confirm-actions">
+            <button id="confirmCancel" class="btn-cancel">Cancel</button>
+            <button id="confirmOk" class="btn-confirm"></button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/api.js?v=31"></script>
+<script src="js/app-alert.js"></script>
+<script src="./js/db.js"></script>
+<script src="./js/incoming-detail.js"></script>
+<script src="./js/theme.js"></script>
+
+</body>
+
+</html>
